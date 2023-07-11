@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'; // ES6
 
 function FeedbackOptions({ options, onLeaveFeedback }) {
-  console.log(options);
   return (
     <ul>
       {options.map(option => {
