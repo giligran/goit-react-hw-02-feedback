@@ -1,70 +1,66 @@
 import React from 'react';
-import Controls from './Controls';
+import FeedbackOptions from './FeedbackOptions';
 import Statistics from './Statistics';
 import Notification from './Notification';
+import Section from './Section';
 
 class Counter extends React.Component {
-    static defaultProps = {
-        step: 1,
-        initialValue: 0,
+  static defaultProps = {
+    step: 1,
+    initialValue: 0,
+  };
+
+  constructor() {
+    super();
+
+    this.state = {
+      good: 0,
+      neutral: 0,
+      bad: 0,
     };
+  }
 
-    constructor() {
-        super();
+  handleClick = event => {
+    let key = event.target.textContent.toLowerCase();
+    this.setState(prevState => {
+      return {
+        [key]: prevState[key] + this.props.step,
+      };
+    });
+  };
 
-        this.state = {
-            good: 0,
-            neutral: 0,
-            bad: 0,
-        };
-    }
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
+  };
 
-    handleClick = event => {
-        let key = event.target.textContent.toLowerCase();
-        this.setState(prevState => {
-            return {
-                [key]: prevState[key] + this.props.step,
-            };
-        });
-    };
+  countPositiveFeedbackPercentage = () => {
+    const total = this.countTotalFeedback();
+    return total > 0 ? (this.state.good / total) * 100 : 0;
+  };
 
-    countTotalFeedback = () => {
-        const { good, neutral, bad } = this.state;
-        return good + neutral + bad;
-    };
-
-    countPositiveFeedbackPercentage = () => {
-        const total = this.countTotalFeedback();
-        return total > 0 ? (this.state.good / total) * 100 : 0;
-    };
-
-    render() {
-        const total = this.countTotalFeedback();
-        let statistics;
-        if (total === 0) {
-            statistics = <Notification message="There is no feedback" />;
-        } else {
-            statistics = (
-                <Statistics
-                    good={this.state.good}
-                    neutral={this.state.neutral}
-                    bad={this.state.neutral}
-                    total={this.countTotalFeedback()}
-                    positivePercentage={this.countPositiveFeedbackPercentage()}
-                />
-            );
-        }
-        return (
-            <div>
-                <h1>Please, leave your feedback</h1>
-                <Controls onClick={this.handleClick} />
-                <div>
-                    <h2>Statistics</h2>
-                    {statistics}
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <>
+        <Section title={'Please, leave your feedback'}>
+          <FeedbackOptions onLeaveFeedback={this.handleClick} />
+        </Section>
+        <Section title={'Statistics'}>
+          {this.countTotalFeedback() === 0 ? (
+            <Notification message="There is no feedback" />
+          ) : (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          )}
+        </Section>
+      </>
+    );
+  }
 }
 
 export default Counter;
