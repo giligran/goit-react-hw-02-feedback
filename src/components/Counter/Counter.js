@@ -20,11 +20,10 @@ class Counter extends React.Component {
     };
   }
 
-  handleClick = event => {
-    let key = event.target.textContent.toLowerCase();
+  handleClick = option => {
     this.setState(prevState => {
       return {
-        [key]: prevState[key] + this.props.step,
+        [option]: prevState[option] + this.props.step,
       };
     });
   };
@@ -43,7 +42,10 @@ class Counter extends React.Component {
     return (
       <>
         <Section title={'Please, leave your feedback'}>
-          <FeedbackOptions onLeaveFeedback={this.handleClick} />
+          <FeedbackOptions
+            options={Object.keys(this.state)}
+            onLeaveFeedback={this.handleClick}
+          />
         </Section>
         <Section title={'Statistics'}>
           {this.countTotalFeedback() === 0 ? (

@@ -1,22 +1,28 @@
 import PropTypes from 'prop-types'; // ES6
 
 function FeedbackOptions({ options, onLeaveFeedback }) {
+  console.log(options);
   return (
     <ul>
-      <li>
-        <button onClick={onLeaveFeedback}>Good</button>
-      </li>
-      <li>
-        <button onClick={onLeaveFeedback}>Neutral</button>
-      </li>
-      <li>
-        <button onClick={onLeaveFeedback}>Bad</button>
-      </li>
+      {options.map(option => {
+        return (
+          <li key={option}>
+            <button
+              onClick={() => {
+                onLeaveFeedback(option);
+              }}
+            >
+              {option}
+            </button>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
 FeedbackOptions.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
   onLeaveFeedback: PropTypes.func.isRequired,
 };
 
