@@ -1,22 +1,23 @@
 import PropTypes from 'prop-types'; // ES6
+import { ListOptions, OptionsButton } from './Counter.styled';
 
 function FeedbackOptions({ options, onLeaveFeedback }) {
   return (
-    <ul>
+    <ListOptions>
       {options.map(option => {
         return (
           <li key={option}>
-            <button
+            <OptionsButton
               onClick={() => {
                 onLeaveFeedback(option);
               }}
             >
               {option}
-            </button>
+            </OptionsButton>
           </li>
         );
       })}
-    </ul>
+    </ListOptions>
   );
 }
 

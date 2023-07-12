@@ -5,25 +5,16 @@ import Notification from './Notification';
 import Section from './Section';
 
 class Counter extends React.Component {
-  static defaultProps = {
-    step: 1,
-    initialValue: 0,
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
   };
-
-  constructor() {
-    super();
-
-    this.state = {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    };
-  }
 
   handleClick = option => {
     this.setState(prevState => {
       return {
-        [option]: prevState[option] + this.props.step,
+        [option]: prevState[option] + 1,
       };
     });
   };
@@ -35,7 +26,8 @@ class Counter extends React.Component {
 
   countPositiveFeedbackPercentage = () => {
     const total = this.countTotalFeedback();
-    return total > 0 ? (this.state.good / total) * 100 : 0;
+    const percentage = total > 0 ? (this.state.good / total) * 100 : 0;
+    return percentage.toFixed(2) + '%';
   };
 
   render() {

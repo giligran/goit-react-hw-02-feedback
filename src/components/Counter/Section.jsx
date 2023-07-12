@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
+import { SectionStyled } from './Counter.styled';
 
 function Section({ title, children }) {
   return (
-    <section>
+    <SectionStyled>
       {title && <h2>{title}</h2>}
       {children}
-    </section>
+    </SectionStyled>
   );
 }
 
